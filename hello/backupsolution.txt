@@ -1,0 +1,61 @@
+
+
+void cmTSPFamSol::Writesoljs2(cmTSPFamInst& inst)
+{
+	int i, j, seq, tseq;
+	double d;
+
+	ofstream fout;
+	string nome_siulacao = inst.soljs.c_str();
+	//fout.open(inst.soljs.c_str(), ios::out | ios::trunc);
+	fout.open("../grafo/hello/script_unico_" + nome_siulacao);
+
+	if (fout.fail())
+	{
+		cout << "Error writing detailed output file" << endl;
+		system("PAUSE");
+	}
+	else
+	{
+
+		fout << "var N = " << inst.nbNodes+1 << ", E=" << (inst.nbNodes2V +1) << ";\n";
+		
+		fout << "caminho=[] ;"<<endl;
+
+		fout << "var g = { nodes: [] , edges : [] }; \n ";
+
+		fout << "node_aux= []; \n";
+
+		fout << "\n caminho[0] = [";
+
+
+
+		for (int v = 0; v < inst.nbTours; v++) {
+			i = 0;
+			j = trFirst[v];
+			seq = 0;
+			do {
+				//inst.DistD(i, j, d);
+				//seq++;
+				//fout << inst.Node[i].family << "," << inst.Node[j].family;
+				fout << i;
+				i = j;
+				j = Next[j];
+				if (i > 0) fout << ",";
+
+			} while (i > 0);
+			fout << ",0];";
+		} 
+
+		fout << "node_aux= []; \n";
+
+		for (i = 0; i < inst.nbNodes + 1; i++)
+			fout << "node_aux[" << i << "]=[" << inst.Node[i].family << "," << inst.Node[i].X << "," << inst.Node[i].Y << "];\n";
+
+
+		fout.close();
+	}
+
+
+
+}
